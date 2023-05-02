@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   camera: ^0.10.0
   gallery_saver: ^2.3.2
+  http: ^0.13.6
+  video_player: ^2.6.1
+  zego_uikit_prebuilt_live_streaming: ^2.5.2
 
 dev_dependencies:
   flutter_test:
