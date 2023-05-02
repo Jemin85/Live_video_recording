@@ -13,7 +13,7 @@ class LiveVideoStreming extends StatefulWidget {
 class _LiveVideoStremingState extends State<LiveVideoStreming> {
   TextEditingController first = TextEditingController();
   TextEditingController secound = TextEditingController();
-
+  GlobalKey<FormState> _from = GlobalKey();
   var host = false;
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -38,41 +38,60 @@ class _LiveVideoStremingState extends State<LiveVideoStreming> {
       ),
       body: Container(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: first,
-              decoration: const InputDecoration(labelText: "User ID"),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: secound,
-              decoration: const InputDecoration(labelText: "User Name"),
-            ),
-            const SizedBox(height: 20),
-            Checkbox(
-                value: host,
-                onChanged: (value) {
-                  setState(() {
-                    host = value!;
-                  });
-                }),
-            const Text("Host"),
-            const SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SecoundWidgets(
-                              liveID: "100",
-                              host: host,
-                              userid: first.text,
-                              username: secound.text)));
+        child: Form(
+          key: _from,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: first,
+                keyboardType: TextInputType.number,
+                validator: (v) {
+                  if (v!.isEmpty) {
+                    return "Enter User ID";
+                  }
+                  return null;
                 },
-                child: const Text("Join"))
-          ],
+                decoration: const InputDecoration(labelText: "User ID"),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                keyboardType: TextInputType.name,
+                controller: secound,
+                validator: (v) {
+                  if (v!.isEmpty) {
+                    return "Enter User Name";
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(labelText: "User Name"),
+              ),
+              const SizedBox(height: 20),
+              Checkbox(
+                  value: host,
+                  onChanged: (value) {
+                    setState(() {
+                      host = value!;
+                    });
+                  }),
+              const Text("Host"),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                  onPressed: () {
+                    if (_from.currentState!.validate()) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SecoundWidgets(
+                                  liveID: "100",
+                                  host: host,
+                                  userid: first.text,
+                                  username: secound.text)));
+                    }
+                  },
+                  child: const Text("Join"))
+            ],
+          ),
         ),
       ),
     );
